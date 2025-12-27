@@ -33,11 +33,13 @@ void game::initialize()
         window_height,
         SDL_WINDOW_BORDERLESS
     );
+
     if(!m_window)
     {
         std::cerr << "Error creating SDL window" <<std::endl;
         return;
     }
+
     m_renderer = SDL_CreateRenderer(m_window, -1, 0);
     if(!m_renderer)
     {
@@ -81,17 +83,31 @@ void game::process_input()
 
     
 }
+
+void game::setup()
+{
+    //TODO : initialize game objects
+}
+
 void game::update()
 {
-
+    //TODO : update game objects
 }
+
 void game::render()
 {
-    SDL_SetRenderDrawColor(m_renderer,255,0,0,255);
+    SDL_SetRenderDrawColor(m_renderer, 21, 21, 21, 255);
     SDL_RenderClear(m_renderer);
-    SDL_RenderPresent(m_renderer);
+
+    //render all game objects
+    SDL_Rect player = {10, 10, 30, 30};
+    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(m_renderer, &player);
+
+    SDL_RenderPresent(m_renderer); //swap the data from back buffer to front buffer 
 
 }
+
 void game::destroy()
 {
     SDL_DestroyRenderer(m_renderer);
