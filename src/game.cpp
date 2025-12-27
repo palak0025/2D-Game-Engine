@@ -99,10 +99,15 @@ void game::render()
     SDL_SetRenderDrawColor(m_renderer, 21, 21, 21, 255);
     SDL_RenderClear(m_renderer);
 
-    //render all game objects
-    SDL_Rect player = {10, 10, 30, 30};
-    SDL_SetRenderDrawColor(m_renderer, 255, 255, 255, 255);
-    SDL_RenderFillRect(m_renderer, &player);
+    //draw png texture
+    SDL_Surface* surface = IMG_Load("../assets/images/tank-tiger-right.png");
+    SDL_Texture* texture = SDL_CreateTextureFromSurface(m_renderer, surface);
+    SDL_FreeSurface(surface);
+
+    //copy texture to renderer
+    SDL_Rect dstRct = {10, 10, 32, 32}; //src rect is NULL as we need full texture(not part of texture) and dstRect in renderer ned to place our texture 
+    SDL_RenderCopy(m_renderer, texture, NULL, &dstRct);
+    SDL_DestroyTexture(texture);
 
     SDL_RenderPresent(m_renderer); //swap the data from back buffer to front buffer 
 

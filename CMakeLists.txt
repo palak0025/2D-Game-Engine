@@ -22,6 +22,7 @@ target_include_directories(renderer
                             ${CMAKE_SOURCE_DIR}/vendor/imgui
                             ${CMAKE_SOURCE_DIR}/vendor/lua/include)
             
-target_link_libraries(renderer 
-                      PRIVATE "C:/SDL2/lib/libSDL2.dll.a"
+target_link_libraries(renderer PRIVATE 
+                      "C:/SDL2/lib/libSDL2.dll.a"
+                      "C:/SDL2/lib/libSDL2_image.dll.a"
                       ${CMAKE_SOURCE_DIR}/vendor/lua/lua53.dll)
