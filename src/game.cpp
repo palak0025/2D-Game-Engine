@@ -1,5 +1,6 @@
 #include <iostream>
 #include "game.h"
+#include <glm/glm.hpp>
 
 game::game()
 {
@@ -54,6 +55,7 @@ void game::initialize()
 
 void game::run()
 {
+    setup();
     while(isRunning)
     {
         process_input();
@@ -84,14 +86,38 @@ void game::process_input()
     
 }
 
+
+glm::vec2 playerPosition;
+glm::vec2 playerVelocity;
+
 void game::setup()
 {
     //TODO : initialize game objects
+    //playerPosition.x = 10.0;
+    //playerPosition.y = 20.0;
+    playerPosition = glm::vec2(10.0, 20.0);
+    playerVelocity = glm::vec2(100.0, 0.0);
 }
 
 void game::update()
 {
-    //TODO : update game objects
+    // if we are too fast , waste some time until we reach MILLISECS_PER_FRAME :cap the framerate 
+    //while(!SDL_TICKS_PASSED(SDL_GetTicks(), millisecsPreviousFrame + MILLISECS_PER_FRAME));
+   // int timeToWait = MILLISECS_PER_FRAME - (SDL_GetTicks() - millisecsPreviousFrame);
+   // if(timeToWait > 0 && timeToWait <= MILLISECS_PER_FRAME)
+   // {
+   //     SDL_Delay(timeToWait); 
+   // }
+
+    //difference in ticks since the last frame, converted to seconds
+    //NOTE : independent o framerate even if we keep FPS 2 still velocity should be constant of the object
+    double deltaTime = (SDL_GetTicks() - millisecsPreviousFrame) / 1000.0;
+    
+    //store the current frame 
+    millisecsPreviousFrame = SDL_GetTicks();
+    // update game objects(update frame by frame = velocity)
+    playerPosition.x += playerVelocity.x * deltaTime;
+    playerPosition.y += playerVelocity.y * deltaTime;
 }
 
 void game::render()
@@ -105,7 +131,11 @@ void game::render()
     SDL_FreeSurface(surface);
 
     //copy texture to renderer
-    SDL_Rect dstRct = {10, 10, 32, 32}; //src rect is NULL as we need full texture(not part of texture) and dstRect in renderer ned to place our texture 
+    SDL_Rect dstRct = {
+        static_cast<int>(playerPosition.x), 
+        static_cast<int>(playerPosition.y), 
+        32, 
+        32}; //src rect is NULL as we need full texture(not part of texture) and dstRect in renderer ned to place our texture 
     SDL_RenderCopy(m_renderer, texture, NULL, &dstRct);
     SDL_DestroyTexture(texture);
 
