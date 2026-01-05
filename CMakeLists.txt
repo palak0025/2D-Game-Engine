@@ -8,10 +8,12 @@ set(CMAKE_C_FLAGS "-Wall -Werror")
 set(SRC_FILES 
     src/game.cpp
     src/main.cpp
+    src/logger.cpp
 )
 set(HEADER_FILES 
 
     src/game.h
+    src/logger.h
 )
 
 

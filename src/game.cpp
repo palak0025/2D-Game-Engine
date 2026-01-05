@@ -1,23 +1,24 @@
 #include <iostream>
 #include "game.h"
+#include "logger.h"
 #include <glm/glm.hpp>
 
 game::game()
 {
     isRunning = false;
-    std::cout<<"constructor is called"<<std::endl;
+    logger::log("Game constructor is called !");
 }
 
 game::~game()
 {
-    std::cout<<"destructor is called"<<std::endl;
+    logger::log("Game destructor is called !");
 }
 
 void game::initialize()
 {
     if(SDL_Init(SDL_INIT_EVERYTHING)!=0)
     {
-        std::cerr << "Error initializing SDL" <<std::endl;
+        logger::err("Error initializing SDL !" );
         return;
     }
         //fake fullscreen : didn't change video mode to fullscreen
@@ -37,14 +38,14 @@ void game::initialize()
 
     if(!m_window)
     {
-        std::cerr << "Error creating SDL window" <<std::endl;
+        logger::err( "Error creating SDL window !");
         return;
     }
 
     m_renderer = SDL_CreateRenderer(m_window, -1, 0);
     if(!m_renderer)
     {
-        std::cerr << "Error creating SDL renderer" <<std::endl;
+        logger::err("Error creating SDL renderer !" );
         return;
     }
 
